@@ -6,12 +6,15 @@ import { LanguageService } from '../../services/language.service';
 import { NavigationService } from '../../services/navigation.service';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
+import { map, startWith, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { SkeletonCardComponent } from '../skeleton-card/skeleton-card.component';
 
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, ProductCardComponent, ImageModalComponent],
+  imports: [CommonModule, ProductCardComponent, ImageModalComponent, SkeletonCardComponent],
 })
 export class GalleryComponent {
   productService = inject(ProductService);
@@ -19,16 +22,28 @@ export class GalleryComponent {
   navigationService = inject(NavigationService);
 
   t = this.languageService.current;
-  products = toSignal(this.productService.getProducts(), { initialValue: [] as Product[] });
+  
+  private productsState = toSignal(
+    this.productService.getProducts().pipe(
+      map(data => ({ loading: false, data })),
+      startWith({ loading: true, data: [] as Product[] }),
+      catchError(() => of({ loading: false, data: [] as Product[] }))
+    ),
+    { initialValue: { loading: true, data: [] as Product[] } }
+  );
+
+  products = computed(() => this.productsState().data);
+  isLoading = computed(() => this.productsState().loading);
 
   searchTerm = signal('');
   
   filteredProducts = computed(() => {
     const term = this.searchTerm().toLowerCase();
+    const prods = this.products();
     if (!term) {
-      return this.products();
+      return prods;
     }
-    return this.products().filter(p => 
+    return prods.filter(p => 
       (p.name && p.name.toLowerCase().includes(term)) || 
       (p.description && p.description.toLowerCase().includes(term))
     );

@@ -4,7 +4,13 @@
       {{ t().productsTitle }}
     </h2>
 
-    @if (featuredProducts().length > 0) {
+    @if (isLoading()) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        @for (_ of [1,2,3,4,5,6,7,8]; track $index) {
+          <app-skeleton-card></app-skeleton-card>
+        }
+      </div>
+    } @else if (featuredProducts().length > 0) {
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         @for (product of featuredProducts(); track product.name) {
           <app-product-card [product]="product" [isSelected]="selectedProduct() === product" (view)="openModal($event)"></app-product-card>

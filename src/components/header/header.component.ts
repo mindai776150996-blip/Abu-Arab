@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
 import { LanguageService } from '../../services/language.service';
@@ -18,6 +18,12 @@ export class HeaderComponent {
   t = this.languageService.current;
   theme = this.themeService.theme;
   lang = this.languageService.language;
+
+  themeToggleLabel = computed(() => 
+    this.theme() === 'dark' 
+    ? 'Switch to light mode' 
+    : 'Switch to dark mode'
+  );
   
   navigateTo(section: 'home' | 'products' | 'gallery') {
     if (section === 'gallery') {

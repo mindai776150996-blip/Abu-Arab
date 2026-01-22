@@ -1,0 +1,16 @@
+<div class="relative min-h-screen bg-white dark:bg-[#121212] text-gray-800 dark:text-gray-200 transition-colors duration-300">
+  <app-header></app-header>
+  
+  @if (currentPage() === 'main') {
+    <main>
+      <app-hero></app-hero>
+      <app-products></app-products>
+      <app-whatsapp-links></app-whatsapp-links>
+    </main>
+    <app-footer></app-footer>
+  } @else if (currentPage() === 'gallery') {
+    <app-gallery></app-gallery>
+  }
+
+  <app-contact-sidebar></app-contact-sidebar>
+</div>

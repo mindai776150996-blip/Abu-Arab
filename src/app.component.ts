@@ -5,7 +5,7 @@ import { HeroComponent } from './components/hero/hero.component';
 import { ProductsComponent } from './components/products/products.component';
 import { WhatsappLinksComponent } from './components/whatsapp-links/whatsapp-links.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { ContactSidebarComponent } from './components/contact-sidebar/contact-sidebar.component';
+import { FloatingContactButtonsComponent } from './components/floating-contact-buttons/floating-contact-buttons.component';
 import { ThemeService } from './services/theme.service';
 import { LanguageService } from './services/language.service';
 import { NavigationService } from './services/navigation.service';
@@ -22,7 +22,7 @@ import { GalleryComponent } from './components/gallery/gallery.component';
     ProductsComponent,
     WhatsappLinksComponent,
     FooterComponent,
-    ContactSidebarComponent,
+    FloatingContactButtonsComponent,
     GalleryComponent,
   ],
   host: {
